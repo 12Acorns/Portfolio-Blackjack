@@ -1,0 +1,19 @@
+[*]
+
+# Microsoft .NET properties
+csharp_prefer_braces = true:none
+
+# Seal internal types
+dotnet_diagnostic.CA1852.severity = warning
+
+[*.cs]
+dotnet_diagnostic.MA0053.severity = suggestion
+
+# Report public classes without inheritors (default: false)
+MA0053.public_class_should_be_sealed = true
+
+# Report class without inheritors even if there is virtual members (default: false)
+MA0053.class_with_virtual_member_shoud_be_sealed = true
+
+# ReSharper properties
+resharper_braces_redundant = true
