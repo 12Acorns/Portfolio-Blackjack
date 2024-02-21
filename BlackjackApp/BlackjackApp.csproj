@@ -6,14 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <StartupObject>BlackjackApp.Program</StartupObject>
+    <InvariantGlobalization>true</InvariantGlobalization>
+	  <StripSymbols>true</StripSymbols>
+	  <DebugType>none</DebugType>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Include="Meziantou.Analyzer" Version="2.0.143">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <ProjectReference Include="..\ConsoleUtility\ConsoleUtility.csproj" />

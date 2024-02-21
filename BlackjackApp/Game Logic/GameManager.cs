@@ -180,7 +180,7 @@ namespace BlackjackApp.Game_Logic
 					return;
 				}
 
-				while (DealerLogic.Instance.GetValue() <= PlayerLogic.Instance.GetValue())
+				while (DealerLogic.Instance.GetValue() < PlayerLogic.Instance.GetValue())
 				{
 					if(!deck.GetTopCard(out var _card))
 					{
