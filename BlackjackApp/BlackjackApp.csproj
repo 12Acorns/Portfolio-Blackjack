@@ -6,9 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <StartupObject>BlackjackApp.Program</StartupObject>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <!--<InvariantGlobalization>true</InvariantGlobalization>
 	  <StripSymbols>true</StripSymbols>
-	  <DebugType>none</DebugType>
+	  <DebugType>none</DebugType>-->
   </PropertyGroup>
 
   <!--<ItemGroup>

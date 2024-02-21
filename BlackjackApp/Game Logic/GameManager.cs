@@ -148,10 +148,12 @@ namespace BlackjackApp.Game_Logic
 					if(CheckForTwentyOne(_currentCardValue))
 					{
 						WonGame();
+						return;
 					}
 					continue;
 				}
 				EndGame();
+				return;
 			}
 			DealerGameLoop();
 		}
@@ -161,70 +163,79 @@ namespace BlackjackApp.Game_Logic
 			{
 				if(!deck.GetTopCard(out var _card))
 				{
+					ShowDealerAndPlayerCards();
 					WonGame(); // Can't be bothered to add new end state rn, so player wins by default
 					return;
 				}
 
 				DealerLogic.Instance.GiveCard(_card);
-			}
-			Console.Clear();
 
+				var _currentDealerCardValueSubLoop = DealerLogic.Instance.GetValue();
 
-			byte _currentDealerCardValue = ShowDealerAndPlayerCards();
-
-			if (!CheckForBust(_currentDealerCardValue))
-			{
-				if(CheckForTwentyOne(_currentDealerCardValue))
+				if(!CheckForBust(_currentDealerCardValueSubLoop))
 				{
-					EndGame();
-					return;
-				}
-
-				while (DealerLogic.Instance.GetValue() < PlayerLogic.Instance.GetValue())
-				{
-					if(!deck.GetTopCard(out var _card))
+					if(CheckForTwentyOne(_currentDealerCardValueSubLoop))
 					{
-						WonGame(); // Can't be bothered to add new end state rn, so player wins by default
-						return;
-					}
-
-					DealerLogic.Instance.GiveCard(_card);
-
-					_currentDealerCardValue = DealerLogic.Instance.GetValue();
-
-					if(!CheckForBust(_currentDealerCardValue))
-					{
-						if(CheckForTwentyOne(_currentDealerCardValue)
-						   || _currentDealerCardValue > PlayerLogic.Instance.GetValue())
-						{
-							EndGame();
-							return;
-						}
-						continue;
-					}
-					EndGame();
-					return;
-				}
-				Console.Clear();
-				_currentDealerCardValue = ShowDealerAndPlayerCards();
-				if(!CheckForBust(_currentDealerCardValue))
-				{
-					if(CheckForTwentyOne(_currentDealerCardValue)
-					   || _currentDealerCardValue > PlayerLogic.Instance.GetValue())
-					{
+						ShowDealerAndPlayerCards();
 						EndGame();
 						return;
 					}
-					EndGame(); // Dealer Won
-					return; 
+					continue;
 				}
+				ShowDealerAndPlayerCards();
 				WonGame();
 				return;
+			}
+			Console.Clear();
+
+			do
+			{
+				if (!deck.GetTopCard(out var _card))
+				{
+					WonGame(); // Can't be bothered to add new end state rn, so player wins by default
+					return;
+				}
+
+				DealerLogic.Instance.GiveCard(_card);
+
+				byte _currentDealerCardValue2 = DealerLogic.Instance.GetValue();
+
+				if (!CheckForBust(_currentDealerCardValue2))
+				{
+					if (CheckForTwentyOne(_currentDealerCardValue2)
+					    || _currentDealerCardValue2 > PlayerLogic.Instance.GetValue())
+					{
+						ShowDealerAndPlayerCards();
+						EndGame();
+						return;
+					}
+					continue;
+				}
+				ShowDealerAndPlayerCards();
+				WonGame(); // Player Won
+				return;
+			} while (DealerLogic.Instance.GetValue() <= PlayerLogic.Instance.GetValue());
+
+			Console.Clear();
+
+			ShowDealerAndPlayerCards();
+
+			byte _currentDealerCardValue3 = DealerLogic.Instance.GetValue();
+			if(!CheckForBust(_currentDealerCardValue3))
+			{
+				if(CheckForTwentyOne(_currentDealerCardValue3)
+				   || _currentDealerCardValue3 > PlayerLogic.Instance.GetValue())
+				{
+					EndGame();
+					return;
+				}
+				WonGame(); // Player Won
+				return; 
 			}
 			WonGame();
 		}
 
-		private static byte ShowDealerAndPlayerCards()
+		private static void ShowDealerAndPlayerCards()
 		{
 			PlayerLogic.Instance.PromptCurrentCards();
 
@@ -237,7 +248,6 @@ namespace BlackjackApp.Game_Logic
 			byte _currentDealerCardValue = DealerLogic.Instance.GetValue();
 
 			ConsoleHelper.SendMessage($"Sum of all dealers cards is: {_currentDealerCardValue}");
-			return _currentDealerCardValue;
 		}
 
 		private bool GiveFirstTwoCards()
